@@ -1,72 +1,55 @@
-import React, {Component, useState} from 'react';
-import {Button, Keyboard, ScrollView, StyleSheet, Text, View} from 'react-native';
-import { TaskItem, TaskItemProps } from './components/taskItem';
-import { TaskInputField } from './components/taskInputField';
+import React, { useState } from 'react';
+import { StyleSheet, Text, SafeAreaView } from 'react-native';
+import Menu from './components/menu';
+import TodoList from './components/todo-list';
+import { ITodo } from './models/todo.model';
+import EditTodoView from './screens/edit-todo.view';
 
 
 export default function App() {
-  //let tasks:Array<TaskItemProps> = [{index:1,task:'1'}]
-  /*
-  const [tasks, setTasks] = useState([]);
 
-  const addTask = (task:any) => {
-    if (task == null) return;
-    setTasks([...tasks, task]);
-    Keyboard.dismiss();
+  const [data, setData] = useState<ITodo[]>([])
+  const [isEditTodoVisible, setIsEditTodoVisible] = useState(false)
+
+  const onAddTodo = () => {   
+    setIsEditTodoVisible(true)
   }
 
-  const deleteTask = (deleteIndex) => {
-    setTasks(tasks.filter((value, index) => index != deleteIndex));
-  }*/
-
-  const [tasks, setTasks] = useState(new Array<TaskItemProps>());
-
-  const addTask = (task:TaskItemProps) => {
-    if (task == null) return;
-    setTasks([...tasks, task]);
-    Keyboard.dismiss();
+  const onCloseEditTodo = () => {
+    setIsEditTodoVisible(false)
   }
 
-   
+  const onSaveTodo = (data: ITodo) => {
+    setData((d) => [...d, data])
+    setIsEditTodoVisible(false)
+  }
 
   return (
-    <View style={styles.container}>
-        <Text style={styles.heading}>TODO LIST</Text>
-      <ScrollView style={styles.scrollView}>
-        {
-        tasks.map((task, index) => {
-          return (
-            <View key={index} style={styles.taskContainer}>
-              <TaskItem index={index} task={task.task} key={index} />
-                         </View>
-          );
-        })
-      }
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>ToDo</Text>
+      <TodoList data={data} />
+      <Menu onAddTodo={onAddTodo}/>
 
-      </ScrollView>
-      <TaskInputField addTask={addTask}/>
-
-    </View>
+      <EditTodoView isVisible={isEditTodoVisible} 
+        onClose={onCloseEditTodo}
+        onSave={onSaveTodo}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#1E1A3C',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    height: '100%',
+    width: '100%',
   },
-  heading: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: '600',
-    marginTop: 30,
-    marginBottom: 10,
-    marginLeft: 20,
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    padding: 20,
+    paddingBottom: 0,
   },
-  scrollView: {
-    marginBottom: 70,
-  },
-  taskContainer: {
-    marginTop: 20,
-  }
 });
