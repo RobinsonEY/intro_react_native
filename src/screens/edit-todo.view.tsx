@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Modal, StyleSheet, TextInput, View, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { ITodo } from "../models/todo.model";
+import { UserContext } from "../App";
 
 interface IEditTodoProps {
   isVisible: boolean
@@ -17,6 +18,15 @@ const EditTodoView = (props: IEditTodoProps) => {
   const title = props.data ? 'Editar tarea' : 'Agregar tarea'
   const [text, setText] = useState(props.data?.text || '')
 
+  const mockUser = useContext(UserContext);
+
+  //Cuando corre por primera vez
+  useEffect(() => {
+    console.log("EditTodoView-Open")
+    return ()=> {
+      console.log("EditTodoView-Killed")
+    }
+  }, []);
 
   const onSave = () => {
     if (text.trim().length === 0) {
@@ -49,7 +59,7 @@ const EditTodoView = (props: IEditTodoProps) => {
         <Text style={styles.title}>{title}</Text>
 
         <View style={styles.content}>
-          <Text style={styles.label}>Nombre de la tarea:</Text>
+          <Text style={styles.label}>Nueva tarea para {mockUser.username}:</Text>
           <TextInput
             style={styles.input}
             onChangeText={setText}

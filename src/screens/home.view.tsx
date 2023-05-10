@@ -1,16 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import Menu from './components/menu';
-import TodoList from './components/todo-list';
-import { ITodo } from './models/todo.model';
-import EditTodoView from './screens/edit-todo.view';
-import { getTodosFakeData } from './services/todo-service';
+
 import { Text } from '@rneui/themed';
 import LinearGradient from 'react-native-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from './screens/home.view';
-import Login from './screens/login.view';
+import { ITodo } from '../models/todo.model';
+import { getTodosFakeData } from '../services/todo-service';
+import TodoList from '../components/todo-list';
+import Menu from '../components/menu';
+import EditTodoView from './edit-todo.view';
 
 const mockUser = {
   username: 'JuanPerezEY',
@@ -20,9 +17,7 @@ const mockUser = {
 
 export const UserContext = createContext(mockUser)
 
-const Stack = createNativeStackNavigator();
-
-export default function App() {
+export default function Home() {
 
   const [data, setData] = useState<ITodo[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -44,17 +39,31 @@ export default function App() {
     })
   }, []);
 
+
   return (
-    <NavigationContainer>
-      <UserContext.Provider value={mockUser} >
-        <Stack.Navigator initialRouteName='Login' screenOptions={{
-          headerShown: false 
-        }}>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Login" component={Login} />
-        </Stack.Navigator>
-      </UserContext.Provider>
-    </NavigationContainer>
+        <SafeAreaView style={styles.container}>
+          <LinearGradient
+            start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+            colors={['#009245', '#FCEE21']}
+            style={styles.linearGradient}
+          >
+            <Text h1={true} style={styles.title}>Daily Tasks</Text>
+
+          </LinearGradient>
+          <ScrollView style={styles.scrollView}>
+            <TodoList data={data} onDeleteTodo={onDeleteTodo} />
+          </ScrollView>
+          <Menu onAddTodo={onAddTodo} />
+          {isModalVisible ? (
+                  <EditTodoView isVisible={isModalVisible}
+                  onClose={onCloseEditTodo}
+                  onSave={onSaveTodo}
+                />
+          ) : (
+            false
+          )}
+
+        </SafeAreaView>
   );
 }
 
@@ -78,6 +87,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   linearGradient: {
-    paddingBottom: 20
+    paddingBottom:20
   },
 });

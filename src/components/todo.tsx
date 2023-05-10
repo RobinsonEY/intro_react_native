@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { ITodo } from "../models/todo.model";
@@ -10,6 +10,13 @@ interface ITodoProps {
 const Todo = (props: ITodoProps) => {
   const [isDone, setDone] = useState(false);
   
+    //Cuando corre por primera vez
+    useEffect(() => {  
+      return ()=> 
+        console.log("TODOOO-Killed")
+      
+    });
+    
   return (
     <View style={[styles.container, {backgroundColor: props.data.color}]}>
        <BouncyCheckbox

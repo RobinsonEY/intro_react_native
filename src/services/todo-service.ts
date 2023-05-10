@@ -18,3 +18,16 @@ export async function getTodos(): Promise<Array<ITodo>> {
         } as ITodo
     })
 }
+
+export async function getTodosFakeData(): Promise<Array<ITodo>> {
+    let fakeData:Array<ITodo> = [];
+    for (let index = 0; index < 20; index++) {
+        fakeData.push({
+            "text": "delectus aut autem"+index,
+            "id": index.toString(),
+            "done":true,
+            "color":""
+        })
+    }
+    return Promise.resolve(fakeData);
+}

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Button, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import LinearGradient from "react-native-linear-gradient";
+import React from "react";
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
 interface IMenu {
   onAddTodo: () => void
@@ -12,21 +11,14 @@ const Menu = (props: IMenu) => {
       <TouchableHighlight
         style={styles.button}
         onPress={() => props.onAddTodo()}
-        
-     >
-            <Text style={styles.buttonText}>+ Agregar tarea</Text>
-
-     </TouchableHighlight>
+      >
+        <Text style={styles.buttonText}>+ Agregar tarea</Text>
+      </TouchableHighlight>
     </View>
   );
 }
 
 export default Menu;
-
-/*
-<Button 
-title="+ Add ToDos" 
-onPress={() => props.onAddTodo()}/>*/
 
 const styles = StyleSheet.create({
   container: {
