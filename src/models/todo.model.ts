@@ -4,4 +4,10 @@ export interface ITodo {
     text: string
     color: string
   }
-  
+
+  export interface ITodoPlaceHolder{
+    userId: number,
+    id: number,
+    title: string,
+    completed: boolean
+  }

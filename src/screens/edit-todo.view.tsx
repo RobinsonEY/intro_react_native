@@ -14,7 +14,7 @@ const EditTodoView = (props: IEditTodoProps) => {
   const colors = ['#87D3F5', '#BDE991', '#BAAAFB']
   const [colorIndex, setColorIndex] = useState(0)
 
-  const title = props.data ? 'Edit Todo' : 'Add Todo'
+  const title = props.data ? 'Editar tarea' : 'Agregar tarea'
   const [text, setText] = useState(props.data?.text || '')
 
 
@@ -41,72 +41,37 @@ const EditTodoView = (props: IEditTodoProps) => {
   }
 
   return (
-    <Modal visible={props.isVisible} style={styles.modal} 
-        animationType="slide" 
-        transparent={true}
-        >
+    <Modal visible={props.isVisible} style={styles.modal}
+      animationType="slide"
+      transparent={true}
+    >
       <KeyboardAvoidingView style={styles.container} >
-      <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>{title}</Text>
 
         <View style={styles.content}>
-          <Text style={styles.label}>ToDo Text:</Text>
+          <Text style={styles.label}>Nombre de la tarea:</Text>
           <TextInput
             style={styles.input}
             onChangeText={setText}
             value={props.data?.text}
             multiline={true}
             numberOfLines={10}
-            // keyboardType="numeric"
+            placeholder="Nombre de la tarea"
           />
-
-          <Text style={styles.label}>ToDo Color:</Text>
-          <View style={styles.colors} >
-            <View style={[styles.color, {
-              backgroundColor: colors[0],
-              borderColor: 'black',
-              borderWidth: colorIndex === 0 ? 4 : 0
-            }]} 
-              >
-                 <TouchableOpacity 
-                  style={{height: '100%', width:'100%'}}
-                  onPress={() => setColorIndex(0)}>
-                </TouchableOpacity>
-              </View>
-            <View style={[styles.color, {
-              backgroundColor: colors[1],
-              borderColor: 'black',
-              borderWidth: colorIndex === 1 ? 4 : 0}]} 
-              >
-                <TouchableOpacity 
-                  style={{height: '100%', width:'100%'}}
-                  onPress={() => setColorIndex(1)}>
-                </TouchableOpacity>
-              </View>
-            <View style={[styles.color, {
-              backgroundColor: colors[2],
-              borderColor: 'black',
-              borderWidth: colorIndex === 2 ? 4 : 0}]} 
-            >
-                 <TouchableOpacity 
-                  style={{height: '100%', width:'100%'}}
-                  onPress={() => setColorIndex(2)}>
-                </TouchableOpacity>
-              </View>
-          </View>
         </View>
 
         <View style={styles.menu} >
           <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => props.onClose()}
-                >
-                  <Text style={styles.buttonText}>Cancel</Text>
+            style={styles.button}
+            onPress={() => props.onClose()}
+          >
+            <Text style={styles.buttonText}>CANCELAR</Text>
           </TouchableOpacity>
           <TouchableOpacity
-                  style={styles.button}
-                  onPress={onSave}
-                >
-                  <Text style={styles.buttonText}>Save</Text>
+            style={styles.button}
+            onPress={onSave}
+          >
+            <Text style={styles.buttonText}>GUARDAR</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -122,16 +87,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   container: {
-    width: '100%', 
+    width: '100%',
     height: '100%',
-    paddingTop: 100,
+    flex: 1, justifyContent: 'center', alignItems: 'center',
     // backgroundColor: '#fff',
     backgroundColor: 'rgba(0,0,0,0.7)',
-    flexDirection: 'column',
   },
   content: {
     backgroundColor: '#fff',
-    flexDirection: 'column',
+    width:'100%'
   },
   title: {
     fontSize: 24,
@@ -139,27 +103,30 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 0,
     backgroundColor: '#fff',
+    width: '100%',
+    color: 'black'
   },
   menu: {
     display: 'flex',
     width: '100%', height: 60,
-    paddingLeft: 30,
+    paddingHorizontal: 30,
     paddingTop: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#fff'
   },
   input: {
-    margin: 24,
+    margin: 18,
     borderWidth: 1,
     padding: 4,
-    height:32,
-    color: 'black'
-    
+    height: 40,
+    color: 'black',
+    borderRadius:4
+
   },
   label: {
-    padding: 10,
-    paddingBottom: 0,
+    color: 'black',
+    marginHorizontal: 18
   },
   colors: {
     width: '100%',

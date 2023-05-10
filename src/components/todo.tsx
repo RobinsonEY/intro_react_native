@@ -30,7 +30,9 @@ export default Todo
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%', minHeight: 30, height: 'auto',
+    width: '100%', 
+    minHeight: 30, 
+    height: 'auto',
     color: 'black',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -39,6 +41,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     padding: 10,
     borderRadius: 5,
+    backgroundColor: 'black'
   },
   checkbox: {
     width: 40, 
