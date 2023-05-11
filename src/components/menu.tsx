@@ -11,6 +11,7 @@ const Menu = (props: IMenu) => {
       <TouchableHighlight
         style={styles.button}
         onPress={() => props.onAddTodo()}
+        underlayColor={'#Fa9d9c'}
       >
         <Text style={styles.buttonText}>+ Agregar tarea</Text>
       </TouchableHighlight>
@@ -33,11 +34,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingTop: 20,
     paddingBottom: 20,
-    backgroundColor: '#25D366',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#fff',
-    shadowColor: 'red'
+    borderColor: 'transparent',
+    shadowColor: 'red',
+    width:"80%",
+    backgroundColor:"#fb5b5a",
   },
   buttonText: {
     color: '#fff',

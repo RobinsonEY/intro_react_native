@@ -1,10 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
 
-import { Text } from '@rneui/themed';
 import LinearGradient from 'react-native-linear-gradient';
 import { ITodo } from '../models/todo.model';
-import { getTodosFakeData } from '../services/todo-service';
+import { getTodos, getTodosFakeData } from '../services/todo-service';
 import TodoList from '../components/todo-list';
 import Menu from '../components/menu';
 import EditTodoView from './edit-todo.view';
@@ -21,20 +20,39 @@ export default function Home() {
 
   const [data, setData] = useState<ITodo[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editTodo, setEditTodo] = useState<ITodo>();
 
   const onAddTodo = () => { setIsModalVisible(true) }
   const onCloseEditTodo = () => { setIsModalVisible(false) }
-  const onSaveTodo = (data: ITodo) => { setData((d) => [...d, data]); setIsModalVisible(false) }
+  const onSaveTodo = (todo: ITodo) => { 
+    let currentArray = [...data];
+    //Si es que ya existe un elemento
+    if(currentArray.find(element => element.id == todo.id)){
+      let element = currentArray.findIndex(element => element.id == todo.id);
+      currentArray[element] = todo;
+      setData([...currentArray]);
+    }else{
+      setData((d) => [...d, todo]); 
+    }
+    setIsModalVisible(false);
+  }
 
-  const onDeleteTodo = (index: number) => {
+  const onEditTodo = (data: ITodo) => { 
+    //setData((d) => [...d, data]);
+    setEditTodo(data)
+    setIsModalVisible(true);
+  }
+
+  const onDeleteTodo = (todo: ITodo) => {
     let oldData = [...data];
-    oldData.splice(index, 1)
+    oldData.splice(oldData.indexOf(todo), 1)
     setData([...oldData])
   }
 
   //Cuando corre por primera vez
   useEffect(() => {
-    getTodosFakeData().then((data) => {
+    getTodos().then((data) => {
+      console.log("...data",...data)
       setData([...data]);
     })
   }, []);
@@ -42,22 +60,16 @@ export default function Home() {
 
   return (
         <SafeAreaView style={styles.container}>
-          <LinearGradient
-            start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-            colors={['#009245', '#FCEE21']}
-            style={styles.linearGradient}
-          >
-            <Text h1={true} style={styles.title}>Daily Tasks</Text>
-
-          </LinearGradient>
+            <Text  style={styles.title}>Daily Tasks</Text>
           <ScrollView style={styles.scrollView}>
-            <TodoList data={data} onDeleteTodo={onDeleteTodo} />
+            <TodoList data={data} onDeleteTodo={onDeleteTodo} onEditTodo={onEditTodo} />
           </ScrollView>
-          <Menu onAddTodo={onAddTodo} />
+          <Menu onAddTodo={onAddTodo}/>
           {isModalVisible ? (
                   <EditTodoView isVisible={isModalVisible}
                   onClose={onCloseEditTodo}
                   onSave={onSaveTodo}
+                  data={editTodo}
                 />
           ) : (
             false
@@ -71,7 +83,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: 'white',
+    backgroundColor: '#003f5c',
     height: '100%',
     width: '100%',
     flex: 1
@@ -79,12 +91,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    padding: 20,
-    paddingBottom: 0,
-    color: 'black'
+    padding: 16,
+    color: 'white'
   },
   scrollView: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 4,
   },
   linearGradient: {
     paddingBottom:20

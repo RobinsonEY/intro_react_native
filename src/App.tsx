@@ -24,30 +24,10 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
-  const [data, setData] = useState<ITodo[]>([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const onAddTodo = () => { setIsModalVisible(true) }
-  const onCloseEditTodo = () => { setIsModalVisible(false) }
-  const onSaveTodo = (data: ITodo) => { setData((d) => [...d, data]); setIsModalVisible(false) }
-
-  const onDeleteTodo = (index: number) => {
-    let oldData = [...data];
-    oldData.splice(index, 1)
-    setData([...oldData])
-  }
-
-  //Cuando corre por primera vez
-  useEffect(() => {
-    getTodosFakeData().then((data) => {
-      setData([...data]);
-    })
-  }, []);
-
   return (
     <NavigationContainer>
       <UserContext.Provider value={mockUser} >
-        <Stack.Navigator initialRouteName='Login' screenOptions={{
+        <Stack.Navigator initialRouteName='Home' screenOptions={{
           headerShown: false 
         }}>
           <Stack.Screen name="Home" component={Home} />
@@ -57,27 +37,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: 'white',
-    height: '100%',
-    width: '100%',
-    flex: 1
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    padding: 20,
-    paddingBottom: 0,
-    color: 'black'
-  },
-  scrollView: {
-    paddingHorizontal: 16,
-  },
-  linearGradient: {
-    paddingBottom: 20
-  },
-});

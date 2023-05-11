@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-export default function Login () {
+export default function Login ({navigation}) {
     
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -27,13 +27,15 @@ export default function Login () {
         <TouchableOpacity>
           <Text style={styles.forgot}>Forgot Password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity style={styles.loginBtn}
+              onPress={() =>
+                navigation.navigate('Home')
+              }>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.loginText}>Signup</Text>
         </TouchableOpacity>
-
   
       </View>
     );

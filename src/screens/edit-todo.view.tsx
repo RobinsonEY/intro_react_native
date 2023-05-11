@@ -63,9 +63,8 @@ const EditTodoView = (props: IEditTodoProps) => {
           <TextInput
             style={styles.input}
             onChangeText={setText}
-            value={props.data?.text}
+            value={text}
             multiline={true}
-            numberOfLines={10}
             placeholder="Nombre de la tarea"
           />
         </View>
