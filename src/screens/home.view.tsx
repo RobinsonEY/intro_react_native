@@ -1,22 +1,17 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
-
-import LinearGradient from 'react-native-linear-gradient';
 import { ITodo } from '../models/todo.model';
 import { getTodos, getTodosFakeData } from '../services/todo-service';
 import TodoList from '../components/todo-list';
 import Menu from '../components/menu';
 import EditTodoView from './edit-todo.view';
+import { useSelector } from 'react-redux';
+import { IUser } from '../models/user.model';
 
-const mockUser = {
-  username: 'JuanPerezEY',
-  name: 'Juan',
-  lastname: 'Perez'
-}
-
-export const UserContext = createContext(mockUser)
 
 export default function Home() {
+
+  const user:IUser = useSelector((state:any) => state.user);
 
   const [data, setData] = useState<ITodo[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -38,7 +33,6 @@ export default function Home() {
   }
 
   const onEditTodo = (data: ITodo) => { 
-    //setData((d) => [...d, data]);
     setEditTodo(data)
     setIsModalVisible(true);
   }
@@ -51,8 +45,7 @@ export default function Home() {
 
   //Cuando corre por primera vez
   useEffect(() => {
-    getTodos().then((data) => {
-      console.log("...data",...data)
+    getTodosFakeData().then((data) => {
       setData([...data]);
     })
   }, []);
@@ -60,7 +53,7 @@ export default function Home() {
 
   return (
         <SafeAreaView style={styles.container}>
-            <Text  style={styles.title}>Daily Tasks</Text>
+            <Text  style={styles.title}>Daily Tasks: {user.username}</Text>
           <ScrollView style={styles.scrollView}>
             <TodoList data={data} onDeleteTodo={onDeleteTodo} onEditTodo={onEditTodo} />
           </ScrollView>

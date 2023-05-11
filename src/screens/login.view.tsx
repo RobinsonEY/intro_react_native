@@ -1,7 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { UserContext } from '../App';
+import { useDispatch } from 'react-redux';
+import { getTodosFakeData } from '../services/todo-service';
+import { addUser } from '../redux/user-slice';
 
 export default function Login ({navigation}) {
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getTodosFakeData().then((todos) => {
+      dispatch(addUser({name:'Robin',username:'MiGu31',email:'test@test.com'}))
+      console.log("todostodos", todos)
+    })
+  },[])
+
+  const user = useContext(UserContext);
     
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
